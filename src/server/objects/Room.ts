@@ -7,7 +7,7 @@ import { clearInterval } from "timers";
 
 export class Room {
   ID: string;
-  players: [Player?];
+  players: Player[];
 
   gameCode: GameCode;
   inProgress: boolean;
