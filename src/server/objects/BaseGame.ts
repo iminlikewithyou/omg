@@ -62,5 +62,5 @@ export type GameState = {
 
 export type StateObject<T> = {
   value: T;
-  visibleTo: [Player?]; // add teams later
+  visibleTo: Player[]; // add teams later
 }
