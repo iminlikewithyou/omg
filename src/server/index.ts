@@ -2,15 +2,16 @@ import { GameCode } from "./GameDirectory";
 import { Player } from "./objects/Player";
 import { Room } from "./objects/Room";
 
-const express = require("express");
+import express = require("express");
+import http = require('http');
+import { Server } from 'socket.io';
+
+import path = require("path");
+
 const app = express();
-const http = require('http');
 const server = http.createServer(app);
-const { Server } = require("socket.io");
 const io = new Server(server);
 export default io;
-
-const path = require("path");
 
 app.use(express.static(path.join(__dirname, "../../public")));
 app.get("/", (req, res) => {
