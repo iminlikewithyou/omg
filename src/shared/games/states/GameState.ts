@@ -1,13 +1,24 @@
 // type OmitMethods<T, K extends keyof T> = Omit<T, K>;
 
+import { GameLobby } from "../classes/abstracts/GameLobby";
+
 type FunctionParamsAndName<T, K extends keyof T> = T[K] extends (...args: any[]) => any ? {type: K, payload: Parameters<T[K]>} : never;
 
 export type DeltaUpdate<T> = { [K in keyof T]: FunctionParamsAndName<T, K> }[keyof T];
 
 // type BaseGameStateOmitted = OmitMethods<GameState, 'resetGame'>;
-type BaseDeltaUpdate = DeltaUpdate<GameState>;
+// type BaseDeltaUpdate = DeltaUpdate<TestGameState>;
 
-export class GameState {
+abstract class GameStateController {
+  gameState: { [key: string]: any };
+  lobby: GameLobby;
+
+  emitState() {
+    
+  }
+}
+
+export class TestGameState {
   // players: Player[] = [];
 
   resetGame() {
