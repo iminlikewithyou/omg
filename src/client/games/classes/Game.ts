@@ -1,7 +1,7 @@
-import { Container } from 'pixi.js';
-import { app } from '../../app';
+import { Container } from "pixi.js";
+import { app } from "../../app";
 // import { GameCode } from '@shared/games/directory/GameDirectory';
-import { Room } from '../../objects/Room';
+import { Room } from "../../objects/Room";
 
 export class Game {
   // gameCode: GameCode;

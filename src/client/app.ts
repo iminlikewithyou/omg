@@ -1,9 +1,9 @@
-import { Application, Container } from 'pixi.js';
-import { GameCode } from '@shared/games/directory/GameDirectory';
-import { Player } from './objects/Player';
-import { Room } from './objects/Room';
-import socket from './utils/socket';
-import { PlayerContainer } from './objects/PlayerContainer';
+import { Application, Container } from "pixi.js";
+import { GameCode } from "@shared/games/directory/GameDirectory";
+import { Player } from "./objects/Player";
+import { Room } from "./objects/Room";
+import { PlayerContainer } from "./objects/PlayerContainer";
+import socket from "./network/Socket";
 //import anime from 'animejs';
 
 //-----------------------------------------------------------
