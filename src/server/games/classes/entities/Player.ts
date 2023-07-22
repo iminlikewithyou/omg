@@ -1,34 +1,28 @@
 import { Socket } from "socket.io";
-import { Entity } from "./Entity";
+import { BasePlayer } from "@shared/lobbies/BasePlayer";
 
-let currentPlayerID = 1;
+// let currentPlayerID = 1;
 
-export class Player implements Entity {
-  ID: number;
-  name: string;
-  color: number;
+export class Player extends BasePlayer {
   socket: Socket;
 
-  constructor(socket: Socket) {
-    this.ID = currentPlayerID;
-    this.name = "Lame Guest";
+  constructor(ID: number, name: string, color: number, socket: Socket) {
+    super(ID, name, color);
+
     this.socket = socket;
+
+    // this.ID = currentPlayerID;
+    // this.name = "Lame Guest";
+    // this.socket = socket;
 
     // use HSV instead so that it doesn't generate
     // shitty colors
-    this.color = Math.random() * 0xffffff;
+    // this.color = Math.random() * 0xffffff;
 
-    currentPlayerID++;
+    // currentPlayerID++;
   }
 
   getPlayers(): Player[] {
     return [this];
-  }
-
-  toJSON() {
-    return {
-      ID: this.ID,
-      name: this.name
-    }
   }
 }
