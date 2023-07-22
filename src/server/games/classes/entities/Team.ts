@@ -1,4 +1,4 @@
-import { GroupStickRespect, PickOrder, PlayerAbductionSetting, TeamJoinSetting, TeamSettings, WeightType } from "@shared/teams/TeamTypes";
+import { GroupStickRespect, PickOrder, PlayerAbductionSetting, TeamJoinSetting, TeamSettings, WeightType } from "../../../lobbies/TeamTypes";
 import { Entity } from "./Entity";
 import { Player } from "./Player";
 

@@ -1,4 +1,4 @@
-import { WeightType } from "@shared/teams/TeamTypes";
+import { WeightType } from "../lobbies/TeamTypes";
 import { Player } from "@server/games/classes/entities/Player";
 import { DEFAULT_TEAM_SETTINGS, Team } from "@server/games/classes/entities/Team";
 
