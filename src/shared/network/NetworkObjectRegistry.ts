@@ -1,20 +1,11 @@
-import { NetworkObject } from './networkObject';
+import { NetworkObject } from "./NetworkObject";
 
-export class NetworkObjectRegistry {
-  private classMap = new Map<string, typeof NetworkObject>();
+let classMap: { [type: string]: typeof NetworkObject } = {};
 
-  register(type: string, Class: typeof NetworkObject) {
-    this.classMap.set(type, Class);
-  }
-
-  deserialize(json: any): NetworkObject {
-    const Class = this.classMap.get(json.type);
-    if (!Class) {
-      throw new Error(`No class registered for type '${json.type}'`);
-    }
-    return Class.fromJSON(json);
-  }
+export function register(Class: typeof NetworkObject, type: string): void {
+  classMap[type] = Class;
 }
 
-// Export an instance of the registry so it can be imported by NetworkObject subclasses
-export const registry = new NetworkObjectRegistry();
+export function getClass(type: string): typeof NetworkObject | undefined {
+  return classMap[type];
+}
