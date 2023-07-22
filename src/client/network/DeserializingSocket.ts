@@ -1,6 +1,6 @@
 import { NetworkObject } from "./NetworkObject";
 import { getClass } from "./NetworkObjectRegistry";
-import socket from "./Socket";
+import Socket from "./Socket";
 
 export class DeserializingSocket {
   // constructor(
@@ -9,11 +9,11 @@ export class DeserializingSocket {
   // ) {}
 
   emit(eventName: string, object: any): void {
-    socket.emit(eventName, this.serialize(object));
+    Socket.emit(eventName, this.serialize(object));
   }
 
   on(eventName: string, handler: (object: any) => void): void {
-    socket.on(eventName, (json: any) => {
+    Socket.on(eventName, (json: any) => {
       const object = this.deserialize(json);
       handler(object);
     });

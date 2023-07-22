@@ -3,7 +3,7 @@ import { GameCode } from "@shared/games/directory/GameDirectory";
 import { Player } from "./objects/Player";
 import { Room } from "./objects/Room";
 import { PlayerContainer } from "./objects/PlayerContainer";
-import socket from "./network/Socket";
+import Socket from "./network/Socket";
 //import anime from 'animejs';
 
 //-----------------------------------------------------------
@@ -47,7 +47,7 @@ connectResizeFunction(() => {
 
 let myPlayer: Player;
 
-socket.on('connected', (player: Player, server: String) => {
+Socket.on('connected', (player: Player, server: String) => {
   console.log(`Connected to Boba!\nYou're in the ${server} server.\n${player.username ?? "Lame Guest"} - ID: ${player.ID}`);
   myPlayer = player;
 });
@@ -65,34 +65,34 @@ type LobbyInfo = {
   gameCode?: string;
 }
 
-socket.on('lobby:connect', (lobbyInfo: LobbyInfo) => {
+Socket.on('lobby:connect', (lobbyInfo: LobbyInfo) => {
   let room = new Room(lobbyInfo.ID, new PlayerContainer(lobbyInfo.playerContainer.playerInfo, lobbyInfo.playerContainer.teams), <GameCode> lobbyInfo.gameCode);
 
   console.log("Connected to room " + room.ID + "!\nPlayers in room:");
   for (let player of room.playerContainer.players) console.log(player.ID + " - " + (player.username ?? "Lame Guest"));
 
-  socket.on(`${room.ID}:join`, (player: Player) => {
+  Socket.on(`${room.ID}:join`, (player: Player) => {
     room.addPlayer(player);
   });
 
-  socket.on(`${room.ID}:leave`, (player: Player) => {
+  Socket.on(`${room.ID}:leave`, (player: Player) => {
     if (player.ID == myPlayer.ID) {
       connectedRooms.splice(connectedRooms.indexOf(room), 1);
       room.cleanup();
-      socket.off(`${room.ID}:start`);
-      socket.off(`${room.ID}:end`);
-      socket.off(`${room.ID}:join`);
-      socket.off(`${room.ID}:leave`);
+      Socket.off(`${room.ID}:start`);
+      Socket.off(`${room.ID}:end`);
+      Socket.off(`${room.ID}:join`);
+      Socket.off(`${room.ID}:leave`);
       return;
     }
     room.removePlayer(player);
   });
 
-  socket.on(`${room.ID}:start`, () => {
+  Socket.on(`${room.ID}:start`, () => {
     room.startGame();
   });
 
-  socket.on(`${room.ID}:end`, () => {
+  Socket.on(`${room.ID}:end`, () => {
     room.endGame();
   });
 
