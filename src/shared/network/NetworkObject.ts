@@ -1,15 +1,25 @@
 export abstract class NetworkObject {
-  type: string;
+  private ID = crypto.randomUUID();
+  abstract kind: string;
 
-  toJSON(): object {
+  // AKA serialize
+  toJSON(): SerializedNetworkObject {
     return {
-      type: this.type,
+      ID: this.ID,
+      kind: this.kind, // kind: NetworkObject.kind, // does this work? (static member)
       value: JSON.stringify(this)
     }
   }
 
-  static fromJSON(json: any): NetworkObject {
+  // AKA deserialize
+  static fromJSON(serialized: SerializedNetworkObject): NetworkObject {
     // TODO please help there's a constant warning here
-    throw new Error("Method not implemented.");
+    throw new Error(`${serialized.kind} deserialization not implemented.`);
   }
+}
+
+interface SerializedNetworkObject {
+  ID: string;
+  kind: string;
+  value: string;
 }
