@@ -4,7 +4,7 @@
     // "baseUrl": "./src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["dom", "es2020"],
+    "lib": ["dom", "ESNext"],
     "module": "commonjs",
     "noEmitOnError": false,
     "skipLibCheck": true,
@@ -14,7 +14,7 @@
     "noUnusedParameters": true,
     "noImplicitAny": false,
     "sourceMap": true,
-    "target": "es5",
+    "target": "ESNext",
     "outDir": "dist/client",
 
     "baseUrl": ".",
