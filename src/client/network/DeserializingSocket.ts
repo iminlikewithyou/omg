@@ -1,5 +1,5 @@
 import { NetworkObject } from "./NetworkObject";
-import { getClass } from "./NetworkObjectRegistry";
+import { deserialize } from "./NetworkObjectRegistry";
 import Socket from "./Socket";
 
 export class DeserializingSocket {
@@ -14,7 +14,7 @@ export class DeserializingSocket {
 
   on(eventName: string, handler: (object: any) => void): void {
     Socket.on(eventName, (json: any) => {
-      const object = this.deserialize(json);
+      const object = deserialize(json);
       handler(object);
     });
   }
@@ -35,26 +35,6 @@ export class DeserializingSocket {
       return serializedObject;
     } else {
       return object;
-    }
-  }
-
-  private deserialize(json: any): any {
-    if (typeof json === 'object' && json !== null && 'type' in json && 'value' in json) {
-      const ObjectClass = getClass(json.type);
-      if (!ObjectClass) {
-        throw new Error(`No class registered for type "${json.type}"`);
-      }
-      return ObjectClass.fromJSON(this.deserialize(json.value));
-    } else if (Array.isArray(json)) {
-      return json.map(item => this.deserialize(item));
-    } else if (json !== null && typeof json === 'object') {
-      const deserializedObject: any = {};
-      for (const key of Object.keys(json)) {
-        deserializedObject[key] = this.deserialize(json[key]);
-      }
-      return deserializedObject;
-    } else {
-      return json;
     }
   }
 }

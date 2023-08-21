@@ -12,8 +12,10 @@ export abstract class NetworkObject {
   }
 
   // AKA deserialize
-  static fromJSON(serialized: SerializedNetworkObject): NetworkObject {
-    // TODO please help there's a constant warning here
+  // was previously static, but it needs to be an instance method
+  // so that we can create the instance before deserializing it
+  // so that we can add it to the cache
+  fromJSON(serialized: SerializedNetworkObject): NetworkObject {
     throw new Error(`${serialized.kind} deserialization not implemented.`);
   }
 }
