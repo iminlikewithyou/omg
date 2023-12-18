@@ -1,5 +1,6 @@
 import { Player } from "./entities/Player";
 import { GameLobby } from "./abstracts/GameLobby";
+import { GameStateController } from "../states/GameState";
 // import { GameSettings } from "../../../../old/GameSettings";
 // import { GameCode } from "server/games/directory/GameDirectory";
 
@@ -21,7 +22,9 @@ export class Game {
 
   // public readonly playable: boolean;
   
-  gameState: GameState;
+  // dec 17 2023
+  // gameState: GameState;
+  gameState: GameStateController;
   
   gameHandler: GameLobby;
 
