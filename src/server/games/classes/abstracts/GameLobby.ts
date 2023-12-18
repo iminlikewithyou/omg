@@ -50,7 +50,10 @@ export abstract class GameLobby extends Lobby { // made this abstract so it can'
     }
   }
 
+  // WHAT THE FUCK DOES THIS MEAN??????????
   // CEX, FFS, FS
+  // ^^^^^^^
+  // ?????? Why would i type that
 
   // should this be abstract and defined by the handler? god knows
   // abstract startGame(): StartResult;
