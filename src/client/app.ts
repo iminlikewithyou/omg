@@ -65,28 +65,36 @@ type LobbyInfo = {
   gameCode?: string;
 }
 
+Socket.on('lobby:join', (id: string, player: Player) => {
+  let room = connectedRooms.find((room) => room.ID == id);
+
+  if (room) {
+    room.addPlayer(player);
+    return;
+  }
+});
+
+Socket.on('lobby:leave', (id: string, player: Player) => {
+  let room = connectedRooms.find((room) => room.ID == id);
+
+  if (room) {
+    if (player.ID == myPlayer.ID) {
+      connectedRooms.splice(connectedRooms.indexOf(room), 1);
+      
+      room.cleanup();
+      return;
+    }
+
+    room.removePlayer(player);
+    return;
+  }
+});
+
 Socket.on('lobby:connect', (lobbyInfo: LobbyInfo) => {
   let room = new Room(lobbyInfo.ID, new PlayerContainer(lobbyInfo.playerContainer.playerInfo, lobbyInfo.playerContainer.teams), <GameCode> lobbyInfo.gameCode);
 
   console.log("Connected to room " + room.ID + "!\nPlayers in room:");
   for (let player of room.playerContainer.players) console.log(player.ID + " - " + (player.username ?? "Lame Guest"));
-
-  Socket.on(`${room.ID}:join`, (player: Player) => {
-    room.addPlayer(player);
-  });
-
-  Socket.on(`${room.ID}:leave`, (player: Player) => {
-    if (player.ID == myPlayer.ID) {
-      connectedRooms.splice(connectedRooms.indexOf(room), 1);
-      room.cleanup();
-      Socket.off(`${room.ID}:start`);
-      Socket.off(`${room.ID}:end`);
-      Socket.off(`${room.ID}:join`);
-      Socket.off(`${room.ID}:leave`);
-      return;
-    }
-    room.removePlayer(player);
-  });
 
   Socket.on(`${room.ID}:start`, () => {
     room.startGame();
