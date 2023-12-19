@@ -70,7 +70,7 @@ export abstract class Lobby {
     // Tell all players in the lobby that a player has joined
     player.socket.join(this.ID);
     player.socket.emit('lobby:connect', this.getLobbyInfo());
-    player.socket.to(this.ID).emit(`${this.ID}:join`, player);
+    player.socket.to(this.ID).emit(`lobby:join`, this.ID, player);
 
     // Emit to this object that a player has joined
     // this.emit('join', player);
@@ -98,8 +98,8 @@ export abstract class Lobby {
 
     // Tell all players in the lobby that a player has left
     player.socket.leave(this.ID);
-    player.socket.emit('lobby:leave', this.ID);
-    io.to(this.ID).emit(`${this.ID}:leave`, this.ID, player);
+    player.socket.emit('lobby:disconnect', this.ID);
+    io.to(this.ID).emit(`lobby:leave`, this.ID, player);
 
     // Emit to this object that a player has left
     // this.emit('leave', player);
@@ -142,6 +142,7 @@ export abstract class Lobby {
   // }
   
   cleanup() {
+    // and why would this be necessary
     for (let player of this.playerContainer.players) this.removePlayer(player);
   }
 
