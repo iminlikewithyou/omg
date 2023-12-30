@@ -22,14 +22,17 @@ const SERVER_NAME = "Minty"; // Vanilla
 let connectedPlayers = [];
 
 let defaultRoom = new DedicatedGameHandler("DummyGame");
+let currentPlayerID = 1;
 
 io.on('connection', (socket) => {
-  let player = new Player(socket);
+  let player = new Player(currentPlayerID++, "Lame Guest", Math.random() * 0xffffff, socket);
   connectedPlayers.push(player);
 
   console.log('Player connected to Boba server - ' + connectedPlayers.length + ' online.');
   
+  console.log(1);
   socket.emit('connected', player, SERVER_NAME);
+  console.log(2);
   defaultRoom.addPlayer(player);
   
   socket.on('disconnect', () => {
@@ -39,6 +42,8 @@ io.on('connection', (socket) => {
 
     console.log("Player disconnected from Boba server - " + connectedPlayers.length + ' online.');
   });
+
+  console.log(3);
 });
 
 server.listen(PORT, () => {
