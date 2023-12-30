@@ -9,12 +9,21 @@ export type DeltaUpdate<T> = { [K in keyof T]: FunctionParamsAndName<T, K> }[key
 // type BaseGameStateOmitted = OmitMethods<GameState, 'resetGame'>;
 // type BaseDeltaUpdate = DeltaUpdate<TestGameState>;
 
-abstract class GameStateController {
+// should this be abstract??
+export class GameStateController {
   gameState: { [key: string]: any };
   lobby: BaseLobby;
 
+  constructor(lobby: GameLobby) {
+    this.lobby = lobby;
+  }
+
   emitState() {
-    
+    // TODO: emit the state
+  }
+
+  emitDelta(payload: DeltaUpdate<this>) {
+    // TODO: emit a delta
   }
 }
 

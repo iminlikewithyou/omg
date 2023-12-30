@@ -50,7 +50,10 @@ export abstract class GameLobby extends Lobby { // made this abstract so it can'
     }
   }
 
+  // WHAT THE FUCK DOES THIS MEAN??????????
   // CEX, FFS, FS
+  // ^^^^^^^
+  // ?????? Why would i type that
 
   // should this be abstract and defined by the handler? god knows
   // abstract startGame(): StartResult;
@@ -80,16 +83,19 @@ export abstract class GameLobby extends Lobby { // made this abstract so it can'
   // TODO teams need to be reset if the game has already modified them
   startGame(): StartResult {
     if (this.inProgress) return StartResult.GAME_IN_PROGRESS;
+    this.inProgress = true;
+
     // if (!this.gameSettings) return StartResult.MISSING_SETTINGS;
-    // attempting to start
+    
     try {
-      this.inProgress = true;
       console.log("Lobby " + this.ID + " - game started: " + GameDirectory[this.gameCode].name + ".");
       
       io.to(`${this.ID}:start`).emit(); // doesn't need info?
       this.game = new GameDirectory[this.gameCode].Game(this);
       // this.game = new this.gameCode.Game(this);
-      // Can't know if the game wants to stop the startup!
+
+      // Can't know if the game wants to stop the startup! D:
+      // allow games to cancel startup
     } catch (err) {
       this.inProgress = false;
       io.to(`${this.ID}:end`).emit();
@@ -99,15 +105,29 @@ export abstract class GameLobby extends Lobby { // made this abstract so it can'
           this.game.cleanup();
         } catch (err) {
           console.log(GameDirectory[this.gameCode].name + " errored on cleanup - " + err);
+          console.error(err);
         }
         delete this.game;
       }
-
     }
   }
 
   endGame(): EndResult {
-    throw new Error("Method not implemented.");
+    if (!this.inProgress) return EndResult.GAME_NOT_RUNNING;
+    this.inProgress = false;
+
+    try {
+      console.log("Lobby " + this.ID + " - game ended: " + GameDirectory[this.gameCode].name + ".");
+      io.to(`${this.ID}:end`).emit();
+      this.game.cleanup();
+    } catch (err) {
+      console.log(GameDirectory[this.gameCode].name + " errored on cleanup - " + err);
+      console.error(err);
+    } finally {
+      if (this.game) delete this.game;
+    }
+
+    return EndResult.OK;
   }
 
   // getCommands(): Command[];

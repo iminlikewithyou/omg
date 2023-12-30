@@ -24,7 +24,8 @@ export enum WeightType {
   WEIGHT
 }
 
-export type TeamSettings = {
+// to create a team
+export type TeamConfig = {
   name?: string;
   color?: number;
 
@@ -47,4 +48,32 @@ export type TeamSettings = {
   canTeamChat?: boolean;
 
   ephemeral?: boolean;
+}
+
+// once a team is created, it is converted to this
+export type TeamSettings = Required<TeamConfig>;
+
+export const DEFAULT_TEAM_SETTINGS: TeamSettings = {
+  name: "Players",
+  color: 0x2afa23,
+
+  joinSetting: TeamJoinSetting.JOINABLE,
+
+  balanceType: WeightType.WEIGHT,
+  balanceWeight: 1,
+
+  requiredPlayersType: WeightType.WEIGHT,
+  requiredPlayersWeight: 0,
+
+  maxPlayersType: WeightType.PERCENTAGE,
+  maxPlayersWeight: 1,
+
+  playerAbductionSetting: PlayerAbductionSetting.NON_TEAMED,
+  pickOrder: PickOrder.LATEST_PLAYERS,
+  groupStickRespect: GroupStickRespect.RESPECT_GROUP_STICK,
+
+  hiddenPlayers: false,
+  canTeamChat: true,
+
+  ephemeral: false
 }

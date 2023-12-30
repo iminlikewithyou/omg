@@ -20,7 +20,11 @@ export abstract class NetworkObject {
   }
 }
 
-interface SerializedNetworkObject {
+export function isSerializedNetworkObject(json: any): json is SerializedNetworkObject {
+  return typeof json === 'object' && json !== null && '_ID' in json && '_kind' in json && '_value' in json;
+}
+
+export interface SerializedNetworkObject {
   _ID: string;
   _kind: string;
   _value: string;

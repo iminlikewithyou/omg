@@ -1,4 +1,4 @@
-import { NetworkObject } from "./NetworkObject";
+import { NetworkObject, SerializedNetworkObject, isSerializedNetworkObject } from "./NetworkObject";
 
 let classMap: { [type: string]: typeof NetworkObject } = {};
 let cache = new Map<string, WeakRef<NetworkObject>>();
@@ -30,8 +30,8 @@ export function getClass(type: string): typeof NetworkObject | undefined {
 //   }
 // }
 
-export function deserialize(json: any): any {
-  if (typeof json === 'object' && json !== null && '_ID' in json && '_kind' in json && '_value' in json) {
+export function deserialize(json: any) {
+  if (isSerializedNetworkObject(json)) {
     // This is a serialized NetworkObject
 
     // Check if this object has been cached before
@@ -49,6 +49,8 @@ export function deserialize(json: any): any {
     }
     
     // Attempt to get the class for this object
+    // Have to use the "any" type because TypeScript won't let us call new on an abstract class
+    // even though this class can never be abstract
     const NetworkObjectClass: any = getClass(json._kind);
     
     // Check if this class kind is registered
@@ -73,12 +75,12 @@ export function deserialize(json: any): any {
     return instance;
   } else if (Array.isArray(json)) {
     // This is an array; deserialize each item
-    return json.map(item => this.deserialize(item));
+    return json.map(item => deserialize(item));
   } else if (json !== null && typeof json === 'object') {
     // This is an object; deserialize each property
-    const deserializedObject: any = {};
+    const deserializedObject = {};
     for (const key of Object.keys(json)) {
-      deserializedObject[key] = this.deserialize(json[key]);
+      deserializedObject[key] = deserialize(json[key]);
     }
     return deserializedObject;
   } else {

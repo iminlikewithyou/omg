@@ -65,6 +65,31 @@ let connectedRooms: Room[] = [];
 //   gameCode?: string;
 // }
 
+// Socket.on('lobby:join', (id: string, player: Player) => {
+//   let room = connectedRooms.find((room) => room.ID == id);
+
+//   if (room) {
+//     room.addPlayer(player);
+//     return;
+//   }
+// });
+
+// Socket.on('lobby:leave', (id: string, player: Player) => {
+//   let room = connectedRooms.find((room) => room.ID == id);
+
+//   if (room) {
+//     if (player.ID == myPlayer.ID) {
+//       connectedRooms.splice(connectedRooms.indexOf(room), 1);
+      
+//       room.cleanup();
+//       return;
+//     }
+
+//     room.removePlayer(player);
+//     return;
+//   }
+// });
+
 // Boba.on('lobby:connect', (lobbyInfo: LobbyInfo) => {
 //   let room = new Room(lobbyInfo.ID, new PlayerContainer(lobbyInfo.playerContainer.playerInfo, lobbyInfo.playerContainer.teams), <GameCode> lobbyInfo.gameCode);
 
@@ -92,12 +117,6 @@ let connectedRooms: Room[] = [];
 //     room.startGame();
 //   });
 
-//   Boba.on(`${room.ID}:end`, () => {
-//     room.endGame();
-//   });
-
-//   connectedRooms.push(room);
-// });
 
 // Boba.on("lobby:join", (player: Player) => {
 //   console.log("Player " + player.ID + " joined the lobby.");

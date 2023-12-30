@@ -16,6 +16,7 @@
     "sourceMap": true,
     "target": "ESNext",
     "outDir": "dist/client",
+    "esModuleInterop": true,
 
     "baseUrl": ".",
     "rootDirs": [".", "../shared"],
