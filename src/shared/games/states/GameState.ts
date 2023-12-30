@@ -11,7 +11,7 @@ export type DeltaUpdate<T> = { [K in keyof T]: FunctionParamsAndName<T, K> }[key
 
 abstract class GameStateController {
   gameState: { [key: string]: any };
-  lobby: GameLobby;
+  lobby: BaseLobby;
 
   emitState() {
     
@@ -31,10 +31,10 @@ export class TestGameState {
     //   player.position = newPosition;
     // }
 
-    let delta: BaseDeltaUpdate = {
-      type: "movePlayer",
-      payload: [id, newPosition]
-    };
+    // let delta: BaseDeltaUpdate = {
+    //   type: "movePlayer",
+    //   payload: [id, newPosition]
+    // };
   }
 
   // ...more methods...
@@ -42,7 +42,7 @@ export class TestGameState {
 
 type ChessDeltaUpdate = DeltaUpdate<ChessGameState>;
 
-export class ChessGameState extends GameState {
+export class ChessGameState extends GameStateController {
   firstTurn: boolean = true;
 
   movePiece(id: string, newPosition: { x: number, y: number }) {

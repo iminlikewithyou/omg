@@ -17,6 +17,8 @@ export type PlayerInfo = {
 // }
 
 export class BasePlayerContainer extends NetworkObject {
+  kind: "BasePlayerContainer";
+  
   teams: Team[];
   // teamBalancing: boolean; // is this replicated? maybe client doesn't see
   // respectGroupStick: boolean = true; // is this replicated? maybe client doesn't see
@@ -87,7 +89,7 @@ export class BasePlayerContainer extends NetworkObject {
   }
 
   // only seems useful on the server
-  getTeamlessPlayers(): Player[] {
+  getTeamlessPlayers(): BasePlayer[] {
     return this.playerInfo.map(playerInfo => playerInfo.player).filter(player => !this.getTeamOf(player));
   }
 

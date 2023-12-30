@@ -1,14 +1,16 @@
 import { Container, Graphics, Sprite } from "pixi.js";
 import { app, connectResizeFunction, removeResizeFunction } from "../app";
 import { Game } from "../games/classes/Game";
-import { PlayerContainer } from "./PlayerContainer";
+// import { PlayerContainer } from "./PlayerContainer";
 import { GameCode } from "@shared/games/directory/GameDirectory";
 import { GameDirectory } from "@client/games/directory/GameDirectory";
 import { Player } from "./Player";
+import { BasePlayerContainer } from "../lobbies/BasePlayerContainer";
+import { BasePlayer } from "../lobbies/BasePlayer";
 
 export class Room {
   ID: string;
-  playerContainer: PlayerContainer;
+  playerContainer: BasePlayerContainer;
 
   gameCode: GameCode;
   game?: Game;
@@ -19,7 +21,7 @@ export class Room {
 
   resizingFunction: () => void;
   
-  constructor(ID: string, playerContainer: PlayerContainer, gameCode: GameCode) {
+  constructor(ID: string, playerContainer: BasePlayerContainer, gameCode: GameCode) {
     this.ID = ID;
     this.playerContainer = playerContainer;
     this.gameCode = gameCode;
@@ -56,13 +58,13 @@ export class Room {
     this.blobSprite.y = window.innerHeight / 2 - this.blobSprite.height / 2;
   }
 
-  addPlayer(player: Player) {
+  addPlayer(player: BasePlayer) {
     this.playerContainer.addPlayer(player);
 
     console.log("Player joined room " + this.ID + " - " + this.playerContainer.length + " in room");
   }
 
-  removePlayer(player: Player) {
+  removePlayer(player: BasePlayer) {
     this.playerContainer.removePlayer(player);
 
     console.log("Player left room " + this.ID + " - " + this.playerContainer.length + " in room");
