@@ -31,11 +31,11 @@ export function getClass(type: string): typeof NetworkObject | undefined {
 // }
 
 export function deserialize(json: any): any {
-  if (typeof json === 'object' && json !== null && 'ID' in json && 'kind' in json && 'value' in json) {
+  if (typeof json === 'object' && json !== null && '_ID' in json && '_kind' in json && '_value' in json) {
     // This is a serialized NetworkObject
 
     // Check if this object has been cached before
-    const cached = cache.get(json.ID);
+    const cached = cache.get(json._ID);
     if (cached) {
       // This object is cached; check if the instance is still alive
       const instance = cached.deref();
@@ -44,16 +44,16 @@ export function deserialize(json: any): any {
         return instance;
       } else {
         // The instance has been garbage collected, delete and continue
-        cache.delete(json.ID);
+        cache.delete(json._ID);
       }
     }
     
     // Attempt to get the class for this object
-    const NetworkObjectClass: any = getClass(json.type);
+    const NetworkObjectClass: any = getClass(json._kind);
     
     // Check if this class kind is registered
     if (!NetworkObjectClass) {
-      throw new Error(`No class registered for kind "${json.kind}"`);
+      throw new Error(`No class registered for kind "${json._kind}"`);
     }
 
     /* 
@@ -64,10 +64,10 @@ export function deserialize(json: any): any {
     
     // Create an instance of the class and add it to the cache
     const instance: NetworkObject = new NetworkObjectClass();
-    cache.set(json.ID, new WeakRef(instance));
+    cache.set(json._ID, new WeakRef(instance));
 
     // Deserialize the instance
-    instance.fromJSON(this.deserialize(json.value));
+    instance.fromJSON(this.deserialize(json._value));
 
     // Return the instance
     return instance;

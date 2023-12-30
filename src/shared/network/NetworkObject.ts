@@ -1,13 +1,13 @@
 export abstract class NetworkObject {
-  private ID = crypto.randomUUID();
+  private _ID = crypto.randomUUID();
   abstract kind: string;
 
   // AKA serialize
   toJSON(): SerializedNetworkObject {
     return {
-      ID: this.ID,
-      kind: this.kind, // kind: NetworkObject.kind, // does this work? (static member)
-      value: JSON.stringify(this)
+      _ID: this._ID,
+      _kind: this.kind, // kind: NetworkObject.kind, // does this work? (static member)
+      _value: JSON.stringify(this)
     }
   }
 
@@ -16,12 +16,12 @@ export abstract class NetworkObject {
   // so that we can create the instance before deserializing it
   // so that we can add it to the cache
   fromJSON(serialized: SerializedNetworkObject): NetworkObject {
-    throw new Error(`${serialized.kind} deserialization not implemented.`);
+    throw new Error(`${serialized._kind} deserialization not implemented.`);
   }
 }
 
 interface SerializedNetworkObject {
-  ID: string;
-  kind: string;
-  value: string;
+  _ID: string;
+  _kind: string;
+  _value: string;
 }
