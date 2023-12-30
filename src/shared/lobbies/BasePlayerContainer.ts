@@ -1,6 +1,7 @@
 import { TeamSettings, WeightType } from "./TeamTypes";
 import { BasePlayer } from "./BasePlayer";
 import { NetworkObject } from "../network/NetworkObject";
+import { Team } from "./Team";
 
 export type PlayerInfo = {
   player: BasePlayer;

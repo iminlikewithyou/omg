@@ -1,5 +1,5 @@
-import { GroupStickRespect, PickOrder, PlayerAbductionSetting, TeamJoinSetting, TeamSettings, WeightType } from "../../../lobbies/TeamTypes";
-import { Entity } from "./Entity";
+import { Entity } from "@shared/lobbies/Entity";
+import { GroupStickRespect, PickOrder, PlayerAbductionSetting, TeamJoinSetting, TeamSettings, WeightType } from "@shared/lobbies/TeamTypes";
 import { Player } from "./Player";
 
 const DEFAULT_MERGE_SETTINGS: TeamSettings = {

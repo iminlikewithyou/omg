@@ -1,6 +1,6 @@
 // type OmitMethods<T, K extends keyof T> = Omit<T, K>;
 
-import { GameLobby } from "../classes/abstracts/GameLobby";
+import { BaseLobby } from "@shared/lobbies/BaseLobby";
 
 type FunctionParamsAndName<T, K extends keyof T> = T[K] extends (...args: any[]) => any ? {type: K, payload: Parameters<T[K]>} : never;
 
