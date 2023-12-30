@@ -83,6 +83,6 @@ export function AutoEmitState(constructor: Function) {
   });
 }
 
-export function NoEmit(target: any, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
+export function NoEmit(_target: any, _propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
   return descriptor;
 }
