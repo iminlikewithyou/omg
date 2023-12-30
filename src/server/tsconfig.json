@@ -11,7 +11,7 @@
     "moduleResolution": "node",
     "alwaysStrict": false,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    // "noUnusedParameters": true,
     "noImplicitAny": false,
     "sourceMap": true,
     "target": "ESNext",
