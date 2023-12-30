@@ -5,7 +5,7 @@ export type NumberGameState = {
 }
 
 export class NumberGame extends Game {
-  gameState: NumberGameState;
+  declare gameState: NumberGameState;
 
   init() {
     // TODO
