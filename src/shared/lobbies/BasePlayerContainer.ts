@@ -1,6 +1,6 @@
 import { TeamSettings, WeightType } from "./TeamTypes";
 import { BasePlayer } from "./BasePlayer";
-import { NetworkObject } from "../network/NetworkObject";
+import { NetworkObject, SerializedNetworkObject } from "../network/NetworkObject";
 import { Team } from "./Team";
 
 export type PlayerInfo = {
@@ -18,12 +18,15 @@ export type PlayerInfo = {
 
 export class BasePlayerContainer extends NetworkObject {
   kind: "BasePlayerContainer";
-  
   teams: Team[];
   // teamBalancing: boolean; // is this replicated? maybe client doesn't see
   // respectGroupStick: boolean = true; // is this replicated? maybe client doesn't see
 
   playerInfo: PlayerInfo[];
+
+  fromJSON(serialized: SerializedNetworkObject): NetworkObject {
+      
+  }
 
   // no constructor because you can just add everything normally
   // usually you don't need to pass in anything

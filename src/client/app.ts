@@ -90,8 +90,34 @@ let connectedRooms: Room[] = [];
 //   }
 // });
 
-// Boba.on('lobby:connect', (lobbyInfo: LobbyInfo) => {
-//   let room = new Room(lobbyInfo.ID, new PlayerContainer(lobbyInfo.playerContainer.playerInfo, lobbyInfo.playerContainer.teams), <GameCode> lobbyInfo.gameCode);
+// there must be a way to automatically send the ID
+// and automatically create the "gamelobby:start" key
+// simply by checking the "kind" in networkobject
+// or something similar..
+
+// networkobjects should be able to communicate
+// between the replicated object through the 
+// client/server border by using a method in
+// the networkobject class
+
+// there is no world this is correct btw, this was just placed here earlier it seems
+
+Boba.on('gamelobby:start', (id: string) => {
+  let room = connectedRooms.find((room) => room.ID == id);
+  if (room) room.startGame();
+});
+
+Boba.on('gamelobby:end', (id: string) => {
+  let room = connectedRooms.find((room) => room.ID == id);
+  if (room) room.endGame();
+});
+
+Boba.on('lobby:connect', (lobbyInfo: LobbyInfo) => {
+  let room = new Room(lobbyInfo.ID, new PlayerContainer(lobbyInfo.playerContainer.playerInfo, lobbyInfo.playerContainer.teams), <GameCode> lobbyInfo.gameCode);
+  connectedRooms.push(room);
+  console.log(`Connected to room ${room.ID}!\nPlayers in room:`);
+  for (let player of room.playerContainer.players) console.log(player.ID + " - " + (player.username ?? "Lame Guest"));
+});
 
 //   console.log("Connected to room " + room.ID + "!\nPlayers in room:");
 //   for (let player of room.playerContainer.players) console.log(player.ID + " - " + (player.username ?? "Lame Guest"));

@@ -1,42 +1,29 @@
-import { GroupStickRespect, PickOrder, PlayerAbductionSetting, TeamJoinSetting, TeamSettings, WeightType } from "./TeamTypes";
+import { GroupStickRespect, PickOrder, PlayerAbductionSetting, TeamConfig, TeamJoinSetting, TeamSettings, WeightType } from "./TeamTypes";
 import { Entity } from "./Entity";
 import { BasePlayer } from "./BasePlayer";
 
-const DEFAULT_MERGE_SETTINGS: TeamSettings = {
-  name: "Players",
-  color: 0x2afa23,
-
-  joinSetting: TeamJoinSetting.JOINABLE,
-
-  balanceType: WeightType.WEIGHT,
-  balanceWeight: 1,
-
-  requiredPlayersType: WeightType.WEIGHT,
-  requiredPlayersWeight: 0,
-
-  maxPlayersType: WeightType.PERCENTAGE,
-  maxPlayersWeight: 1,
-
-  playerAbductionSetting: PlayerAbductionSetting.NON_TEAMED,
-  pickOrder: PickOrder.LATEST_PLAYERS,
-  groupStickRespect: GroupStickRespect.RESPECT_GROUP_STICK,
-
-  hiddenPlayers: false,
-  canTeamChat: true,
-
-  ephemeral: false
-}
-
-export const DEFAULT_TEAM_SETTINGS: TeamSettings = {
+// why have this if there is already DEFAULT_TEAM_SETTINGS?
+// maybe different places use different default configs
+export const DEFAULT_TEAM_CONFIG: TeamConfig = {
   name: "Players",
   color: 0x2afa23,
 
   canTeamChat: false
 }
 
+// maybe make the TeamSettings its own object
+// then if someone wants to save teams it's easier too
+
+// also if TeamSettings is used in other places then
+// all that default-setting stuff can be reused rather
+// than sticking it all in the Team class
+
 export class Team implements Entity, TeamSettings {
+  // Entity
   name: string;
   color: number;
+
+  // TeamSettings
   joinSetting: TeamJoinSetting;
   balanceType: WeightType;
   balanceWeight: number;
@@ -56,6 +43,7 @@ export class Team implements Entity, TeamSettings {
 
   constructor(teamSettings: TeamSettings) {
     // is this really the best way to do this?
+    // come on
     this.name = teamSettings.name || DEFAULT_MERGE_SETTINGS.name;
     this.color = teamSettings.color || DEFAULT_MERGE_SETTINGS.color;
     this.joinSetting = teamSettings.joinSetting || DEFAULT_MERGE_SETTINGS.joinSetting;
